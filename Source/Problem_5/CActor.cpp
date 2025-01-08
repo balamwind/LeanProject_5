@@ -35,7 +35,7 @@ void ACActor::Move()
 		moveVec += move;
 		SetActorLocation(originalLocation + moveVec);
 		Log("Move to " + moveVec.ToString());
-		Log("Distance between original location is " + FString::SanitizeFloat(Distance(originalLocation, originalLocation + moveVec)), FColor::Orange);
+		Log("Distance between previous location is " + FString::SanitizeFloat(Distance(originalLocation + moveVec - move, originalLocation + moveVec)), FColor::Orange);
 		
 		if (FMath::FRand() > 0.5f)
 		{
