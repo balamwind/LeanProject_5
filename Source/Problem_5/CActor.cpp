@@ -28,12 +28,14 @@ void ACActor::Tick(float DeltaTime)
 void ACActor::Move()
 {
 	int eventNumber = 0;
+	FVector moveVec;
 	for (int i = 0; i < 10; i++)
 	{
 		FVector move = FVector(Step(), Step(), 0);
-		SetActorLocation(GetActorLocation() + move);
-		Log("Move to " + GetActorLocation().ToString());
-		Log("Distance between original location is " + FString::SanitizeFloat(Distance(originalLocation, GetActorLocation())), FColor::Orange);
+		moveVec += move;
+		SetActorLocation(originalLocation + moveVec);
+		Log("Move to " + moveVec.ToString());
+		Log("Distance between original location is " + FString::SanitizeFloat(Distance(originalLocation, originalLocation + moveVec)), FColor::Orange);
 		
 		if (FMath::FRand() > 0.5f)
 		{
@@ -42,7 +44,7 @@ void ACActor::Move()
 		}
 	}
 
-	Log("All distance is " + FString::SanitizeFloat(Distance(originalLocation, GetActorLocation())) +
+	Log("All distance is " + FString::SanitizeFloat(Distance(originalLocation, originalLocation + moveVec)) +
 			", number of events occurs is  " + FString::FromInt(eventNumber) + " times.", FColor::Green);
 }
 
@@ -57,7 +59,7 @@ void ACActor::CreateEvent()
 	Log("Event!", FColor::Yellow);
 }
 
-int ACActor::Step() const { return FMath::RandRange(-1, 1); }
+int ACActor::Step() const { return FMath::RandRange(0, 1); }
 
 double ACActor::Distance(const FVector& first, const FVector& second) const
 {
